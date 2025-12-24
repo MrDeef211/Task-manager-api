@@ -1,4 +1,4 @@
-﻿namespace Api.Model
+﻿namespace Api.Model.Entity
 {
 	/// <summary>
 	/// Таблица задач

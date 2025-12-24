@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Api.Model;
+using Api.Model.Entity;
 
 
 namespace Api.Data
