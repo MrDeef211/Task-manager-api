@@ -2,6 +2,7 @@
 using Api.App.Commands.UpdateTask;
 using Api.App.Commands.CompleteTask;
 using Api.App.Commands.StartTask;
+using Api.App.Commands.DeleteTask;
 
 using Api.App.Queries.GetTasks;
 using Api.App.Queries.GetTaskById;
@@ -67,12 +68,13 @@ namespace Api.Controllers
 			return Ok(result);
 		}
 
-		//[HttpDelete("{id:guid}")]
-		//public async Task<IActionResult> Delete(Guid id)
-		//{
-		//	await _mediator.Send(new DeleteTaskCommand(id));
-		//	return NoContent();
-		//}
+
+		[HttpDelete("{id:guid}")]
+		public async Task<IActionResult> Delete(Guid id)
+		{
+			await _mediator.Send(new DeleteTask(id));
+			return NoContent();
+		}
 
 	}
 }

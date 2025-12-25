@@ -93,5 +93,20 @@ namespace Api.Infrastructure.Repositories
 			}
 
 		}
+
+		/// <summary>
+		/// Удалить задачу
+		/// </summary>
+		/// <param name="event">Данные из события для удаления задачи</param>
+		/// <returns></returns>
+		public async Task ApplyAsync(TaskDeletedEvent @event)
+		{
+			var task = await _context.Tasks.FindAsync(@event.TaskId);
+			if (task != null)
+			{
+				_context.Tasks.Remove(task);
+				await _context.SaveChangesAsync();
+			}
+		}
 	}
 }

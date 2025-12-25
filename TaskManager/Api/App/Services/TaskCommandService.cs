@@ -1,21 +1,19 @@
-﻿using Api.App.Interfaces;
-using Api.Model.Events;
+﻿using Api.App.Commands.CompleteTask;
 using Api.App.Commands.CreateTask;
-using Api.App.Commands.UpdateTask;
+using Api.App.Commands.DeleteTask;
 using Api.App.Commands.StartTask;
-using Api.App.Commands.CompleteTask;
+using Api.App.Commands.UpdateTask;
+using Api.App.Interfaces;
+using Api.Model.Events;
 
 namespace Api.App.Services
 {
 	/// <summary>
 	/// Сервис для работы с задачами 
+	/// Содержит бизнес логику
 	/// </summary>
 	public class TaskCommandService : ITaskService
 	{
-		// Я оставил и обработчики команд, и сервисы для работы с задачами,
-		// Сюда можно ещё добавить какую-то бизнес-логику, если потребуется
-		// А обработчики для парса команд
-		// Главное не забыть это дописать потом в redme.txt  
 
 		private readonly ITaskEventRepository _eventRepository;
 		private readonly ITaskRepository _taskRepository;
@@ -93,6 +91,21 @@ namespace Api.App.Services
 			await _taskRepository.ApplyAsync(@event);
 		}
 
+		/// <summary>
+		/// Асинхронное изменение статуса задачи на начатое
+		/// </summary>
+		/// <param name="taskData">Данные задачи для команды</param>
+		/// <returns></returns>
+		public async Task DeleteAsync(DeleteTask taskData)
+		{
+			var @event = new TaskDeletedEvent
+			{
+				TaskId = taskData.TaskId,
+			};
+
+			await _eventRepository.AddAsync(@event);
+			await _taskRepository.ApplyAsync(@event);
+		}
 
 	}
 }

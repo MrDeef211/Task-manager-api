@@ -31,5 +31,11 @@ namespace Api.App.Interfaces
 		/// <param name="event">Данные из события обновления задачи</param>
 		/// <returns></returns>
 		Task ApplyAsync(TaskUpdatedEvent @event);
+		/// <summary>
+		/// Удалить задачу
+		/// </summary>
+		/// <param name="event">Данные из события для удаления</param>
+		/// <returns></returns>
+		Task ApplyAsync(TaskDeletedEvent @event);
 	}
 }

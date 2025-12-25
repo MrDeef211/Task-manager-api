@@ -8,12 +8,10 @@ namespace Api.App.Services
 {
 	/// <summary>
 	/// Сервис для запросов
+	/// Содержит бизнес логику (пока ещё не особо)
 	/// </summary>
 	public class TaskQueryService
 	{
-		// Я оставил и обработчики команд, и сервисы для работы с задачами,
-		// Сюда можно ещё добавить какую-то бизнес-логику, если потребуется
-		// А обработчики для парса команд
 
 		private readonly ApplicationDbContext _context;
 

@@ -1,5 +1,6 @@
 ﻿using Api.App.Commands.CompleteTask;
 using Api.App.Commands.CreateTask;
+using Api.App.Commands.DeleteTask;
 using Api.App.Commands.StartTask;
 using Api.App.Commands.UpdateTask;
 
@@ -17,26 +18,32 @@ namespace Api.App.Interfaces
 		/// <summary>
 		/// Создать задачу
 		/// </summary>
-		/// <param name="command">Данные для создания задачи</param>
+		/// <param name="taskData">Данные для создания задачи</param>
 		/// <returns></returns>
-		Task CreateAsync(CreateTask command);
+		Task CreateAsync(CreateTask taskData);
 		/// <summary>
 		/// Начать выполнение задачи
 		/// </summary>
-		/// <param name="command">Данные для указания задачи, как начатое</param>
+		/// <param name="taskData">Данные для указания задачи, как начатое</param>
 		/// <returns></returns>
-		Task StartAsync(StartTask command);
+		Task StartAsync(StartTask taskData);
 		/// <summary>
 		/// Пометить задачу, как выполненную
 		/// </summary>
-		/// <param name="command">Данные для указания задачи, как выполненное</param>
+		/// <param name="taskData">Данные для указания задачи, как выполненное</param>
 		/// <returns></returns>
-		Task CompleteAsync(CompleteTask command);
+		Task CompleteAsync(CompleteTask taskData);
 		/// <summary>
 		/// Обновить задачу
 		/// </summary>
-		/// <param name="command">Данные для обновления задачи</param>
+		/// <param name="taskData">Данные для обновления задачи</param>
 		/// <returns></returns>
-		Task UpdateAsync(UpdateTask command);
+		Task UpdateAsync(UpdateTask taskData);
+		/// <summary>
+		/// Удалить задачу
+		/// </summary>
+		/// <param name="taskData">Данные для удаления задачи</param>
+		/// <returns></returns>
+		Task DeleteAsync(DeleteTask taskData);
 	}
 }
