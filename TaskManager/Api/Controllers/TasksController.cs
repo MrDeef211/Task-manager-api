@@ -10,6 +10,7 @@ using Api.App.Queries.GetTaskById;
 using Api.App.Objects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Api.Model.Exceptions;
 
 
 
@@ -37,7 +38,7 @@ namespace Api.Controllers
 		public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTask taskData)
 		{
 			await _mediator.Send(taskData);
-			return Ok();
+		    return Ok();
 		}
 
 		[HttpPut("{id:guid}/start")]

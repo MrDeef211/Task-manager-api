@@ -1,0 +1,25 @@
+Using project 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj'.
+Using startup project 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj'.
+dotnet msbuild /getProperty:ProjectName /getProperty:AssemblyName /getProperty:DesignAssembly /getProperty:Language /getProperty:OutputPath /getProperty:PlatformTarget /getProperty:ProjectAssetsFile /getProperty:ProjectDir /getProperty:RootNamespace /getProperty:RuntimeFrameworkVersion /getProperty:TargetFileName /getProperty:TargetFrameworkMoniker /getProperty:Nullable /getProperty:TargetFramework /getProperty:TargetPlatformIdentifier /getProperty:Platform /t:ResolvePackageAssets /getItem:RuntimeCopyLocalItems C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj
+C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj : warning NU1608: Версия обнаруженного пакета нарушает ограничение зависимости: MediatR.Extensions.Microsoft.DependencyInjection 11.1.0 требуется MediatR (>= 11.0.0 && < 12.0.0), но в результате разрешения получена версия MediatR 14.0.0.
+dotnet msbuild /getProperty:ProjectName /getProperty:AssemblyName /getProperty:DesignAssembly /getProperty:Language /getProperty:OutputPath /getProperty:PlatformTarget /getProperty:ProjectAssetsFile /getProperty:ProjectDir /getProperty:RootNamespace /getProperty:RuntimeFrameworkVersion /getProperty:TargetFileName /getProperty:TargetFrameworkMoniker /getProperty:Nullable /getProperty:TargetFramework /getProperty:TargetPlatformIdentifier /getProperty:Platform /t:ResolvePackageAssets /getItem:RuntimeCopyLocalItems C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj
+C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj : warning NU1608: Версия обнаруженного пакета нарушает ограничение зависимости: MediatR.Extensions.Microsoft.DependencyInjection 11.1.0 требуется MediatR (>= 11.0.0 && < 12.0.0), но в результате разрешения получена версия MediatR 14.0.0.
+Build started...
+dotnet build C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj /verbosity:quiet /nologo /p:PublishAot=false
+C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\App\Commands\CompleteTask\CompleteTaskHandler.cs(11,37): error CS0738: "CompleteTaskHandler" не реализует член интерфейса "IRequestHandler<CompleteTask, Unit>.Handle(CompleteTask, CancellationToken)". 'CompleteTaskHandler.Handle(CompleteTask, CancellationToken)" не может реализовать "IRequestHandler<CompleteTask, Unit>.Handle(CompleteTask, CancellationToken)", потому что не имеет соответствующего возвращаемого типа "Task<Unit>". [C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj]
+
+Ошибка сборки.
+
+C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\App\Commands\CompleteTask\CompleteTaskHandler.cs(11,37): error CS0738: "CompleteTaskHandler" не реализует член интерфейса "IRequestHandler<CompleteTask, Unit>.Handle(CompleteTask, CancellationToken)". 'CompleteTaskHandler.Handle(CompleteTask, CancellationToken)" не может реализовать "IRequestHandler<CompleteTask, Unit>.Handle(CompleteTask, CancellationToken)", потому что не имеет соответствующего возвращаемого типа "Task<Unit>". [C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj]
+    Предупреждений: 0
+    Ошибок: 1
+
+Прошло времени 00:00:01.54
+
+Microsoft.EntityFrameworkCore.Tools.CommandException: Build failed. Use dotnet build to see the errors.
+   at Microsoft.EntityFrameworkCore.Tools.Project.Build(IEnumerable`1 additionalArgs)
+   at Microsoft.EntityFrameworkCore.Tools.RootCommand.Execute(String[] _)
+   at Microsoft.EntityFrameworkCore.Tools.Commands.CommandBase.<>c__DisplayClass0_0.<Configure>b__0(String[] args)
+   at Microsoft.DotNet.Cli.CommandLine.CommandLineApplication.Execute(String[] args)
+   at Microsoft.EntityFrameworkCore.Tools.Program.Main(String[] args)
+Build failed. Use dotnet build to see the errors.
