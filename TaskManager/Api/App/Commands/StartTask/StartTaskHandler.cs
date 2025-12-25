@@ -8,6 +8,10 @@ namespace Api.App.Commands.StartTask
 	/// </summary>
 	public class StartTaskHandler
 	{
+		// Я оставил и обработчики команд, и сервис для работы с задачами,
+		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
+		// А обработчики для парса команд
+
 		private readonly ITaskEventRepository _eventRepository;
 		private readonly ITaskRepository _taskRepository;
 
@@ -31,8 +35,6 @@ namespace Api.App.Commands.StartTask
 		/// <returns></returns>
 		public async void HandleAsync(StartTask taskData)
 		{
-			var taskId = Guid.NewGuid();
-
 			var @event = new TaskStartedEvent
 			{
 				TaskId = taskData.TaskId,

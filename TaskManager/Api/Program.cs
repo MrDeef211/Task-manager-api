@@ -3,6 +3,7 @@ using Api.Infrastructure.Data;
 using Api.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

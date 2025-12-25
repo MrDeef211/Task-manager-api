@@ -8,6 +8,10 @@ namespace Api.App.Commands.CreateTask
 	/// </summary>
 	public class CreateTaskHandler
 	{
+		// Я оставил и обработчики команд, и сервис для работы с задачами,
+		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
+		// А обработчики для парса команд
+
 		private readonly ITaskEventRepository _eventRepository;
 		private readonly ITaskRepository _taskRepository;
 

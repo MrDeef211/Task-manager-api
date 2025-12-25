@@ -8,6 +8,10 @@ namespace Api.App.Commands.CompleteTask
 	/// </summary>
 	public class CompleteTaskHandler
 	{
+		// Я оставил и обработчики команд, и сервис для работы с задачами,
+		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
+		// А обработчики для парса команд
+
 		private readonly ITaskEventRepository _eventRepository;
 		private readonly ITaskRepository _taskRepository;
 
@@ -32,7 +36,6 @@ namespace Api.App.Commands.CompleteTask
 		/// <returns></returns>
 		public async void HandleAsync(CompleteTask taskData)
 		{
-			var taskId = Guid.NewGuid();
 
 			var @event = new TaskCompletedEvent
 			{

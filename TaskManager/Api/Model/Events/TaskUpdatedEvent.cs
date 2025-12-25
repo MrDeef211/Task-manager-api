@@ -22,19 +22,5 @@
 		/// </summary>
 		public DateTime Deadline { get; set; }
 
-		/// <summary>
-		/// Данные для события изменения данных задачи
-		/// </summary>
-		/// <param name="taskId">Id задачи</param>
-		/// <param name="title">Название задачи</param>
-		/// <param name="description">Описание задачи</param>
-		/// <param name="deadline">Крайнее время выполнения задачи (дедлайн)</param>
-		public TaskUpdatedEvent(Guid taskId, string title, string description, DateTime deadline)
-		{
-			TaskId = taskId;
-			Title = title;
-			Description = description;
-			Deadline = deadline;
-		}
 	}
 }

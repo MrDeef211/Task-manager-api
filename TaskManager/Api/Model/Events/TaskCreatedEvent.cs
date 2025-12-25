@@ -26,20 +26,5 @@
 		/// </summary>
 		public DateTime CreatedAt { get; init; }
 
-		/// <summary>
-		/// Данные для события создания задачи
-		/// </summary>
-		/// <param name="taskId">Id создаваемой задачи</param>
-		/// <param name="title">Название задачи</param>
-		/// <param name="description">Описание задачи</param>
-		/// <param name="deadline">Дедлайн задачи</param>
-		/// <param name="createdAt">Время создания задачи</param>
-		public TaskCreatedEvent(Guid taskId, string title, string description, DateTime deadline)
-		{
-			TaskId = taskId;
-			Title = title;
-			Description = description;
-			Deadline = deadline;
-		}
 	}
 }

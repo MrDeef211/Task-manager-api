@@ -7,7 +7,7 @@ namespace Api.Infrastructure.Data
 	public class ApplicationDbContext : DbContext
 	{
 		/// <summary>
-		/// 
+		/// Контекст базы данных
 		/// </summary>
 		/// <param name="options"></param>
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)	: base(options)
@@ -18,38 +18,21 @@ namespace Api.Infrastructure.Data
 		/// <summary>
 		/// Таблица задач
 		/// </summary>
-		private DbSet<TaskEntity> _tasks;
+		public DbSet<TaskEntity> Tasks { get; set; }
 		/// <summary>
 		/// История изменения таблицы задач
 		/// </summary>
-		private DbSet<TaskEventEntity> _taskEvents;
+		public DbSet<TaskEventEntity> TaskEvents { get; set; }
 
 		/// <summary>
-		/// Таблица задач
-		/// </summary>
-		public DbSet<TaskEntity> Tasks 
-		{ 
-			get { return _tasks; } 
-			set { _tasks = value; }
-		}
-		/// <summary>
-		/// История изменения таблицы задач
-		/// </summary>
-		public DbSet<TaskEventEntity> TaskEvents
-		{
-			get { return _taskEvents; } 
-			set { _taskEvents = value; }
-		}
-
-		/// <summary>
-		/// 
+		/// Конфигурация модели
 		/// </summary>
 		/// <param name="modelBuilder"></param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 
-			// Конфигурации будут здесь
+			modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 		}
 	}
 }

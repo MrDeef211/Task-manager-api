@@ -9,5 +9,14 @@
 		/// Id задачи
 		/// </summary>
 		public Guid TaskId { get; set; }
+
+		/// <summary>
+		/// Данные для начала выполнения задачи
+		/// </summary>
+		/// <param name="taskId">Id задачи</param>
+		public StartTask(Guid taskId)
+		{
+			TaskId = taskId;
+		}	
 	}
 }

@@ -8,7 +8,7 @@ namespace Api.Infrastructure.Configurations
 	{
 		public void Configure(EntityTypeBuilder<TaskEventEntity> builder)
 		{
-			builder.ToTable("task_events");
+			builder.ToTable("TaskEvents");
 
 			builder.HasKey(x => x.Id);
 

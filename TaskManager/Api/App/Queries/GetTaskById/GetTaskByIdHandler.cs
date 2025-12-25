@@ -10,6 +10,10 @@ namespace Api.App.Queries.GetTaskById
 	/// </summary>
 	public class GetTaskByIdHandler
 	{
+		// Я оставил и обработчики запросов, и сервисы для работы с задачами,
+		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
+		// А обработчики для парса запросов
+
 		private readonly ApplicationDbContext _context;
 
 		/// <summary>
