@@ -13,5 +13,15 @@
 		/// Время начала выполнения задачи (если начато)
 		/// </summary>
 		public DateTime? StartedAt { get; set; }
+
+		/// <summary>
+		/// Данные для события начала выполнения задачи
+		/// </summary>
+		/// <param name="taskId">Id начинаемой задачи</param>
+		/// <param name="startedAt">Время начала выполнения задачи (если начато)</param>
+		public TaskStartedEvent(Guid taskId)
+		{
+			TaskId = taskId;
+		}
 	}
 }

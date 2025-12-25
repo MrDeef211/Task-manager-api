@@ -6,7 +6,7 @@ using System.Text.Json;
 namespace Api.Infrastructure.Repositories
 {
 	/// <summary>
-	/// Интерфейс для работы с действиями
+	/// Репозиторий для работы с действиями
 	/// </summary>
 	public class TaskEventRepository : ITaskEventRepository
 	{
