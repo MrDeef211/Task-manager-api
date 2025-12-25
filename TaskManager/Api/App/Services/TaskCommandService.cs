@@ -5,6 +5,8 @@ using Api.App.Commands.StartTask;
 using Api.App.Commands.UpdateTask;
 using Api.App.Interfaces;
 using Api.Model.Events;
+using Api.Model.Enums;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Api.App.Services
 {
@@ -52,6 +54,11 @@ namespace Api.App.Services
 
 		public async Task UpdateAsync(UpdateTask taskData)
 		{
+			//var task = await _taskRepository
+
+			//if (task.Status == TaskStatusEnum.Completed)
+			//	throw new Exception("Нельзя редактировать завершённую задачу");
+
 			//Конструкторы решил пока не делать
 			var @event = new TaskUpdatedEvent
 			{
