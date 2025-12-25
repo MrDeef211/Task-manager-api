@@ -14,7 +14,7 @@ namespace Api.App.Commands.UpdateTask
 		/// <summary>
 		/// Обновление задачи
 		/// </summary>
-		/// <param name="eventRepository">База запросов</param>
+		/// <param name="eventRepository">База событий</param>
 		/// <param name="taskRepository">База задач</param>
 		public UpdateTaskHandler(
 			ITaskEventRepository eventRepository,

@@ -1,4 +1,6 @@
-﻿namespace Api.Model.Entity
+﻿using Api.Model.Enums;
+
+namespace Api.Model.Entity
 {
 	/// <summary>
 	/// Таблица задач
@@ -36,6 +38,6 @@
 		/// <summary>
 		/// Статус задачи
 		/// </summary>
-		public TaskStatus Status { get; set; }
+		public TaskStatusEnum Status { get; set; }
 	}
 }

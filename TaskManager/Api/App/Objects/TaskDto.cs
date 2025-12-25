@@ -1,4 +1,6 @@
-﻿namespace Api.App.Objects
+﻿using Api.Model.Enums;
+
+namespace Api.App.Objects
 {
 	/// <summary>
 	/// Data Transfer Object для задачи
@@ -37,6 +39,6 @@
 		/// <summary>
 		/// Статус задачи
 		/// </summary>
-		public TaskStatus Status { get; set; }
+		public string Status { get; set; } = null!;
 	}
 }

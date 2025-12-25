@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Api.Data;
 using Api.App.Objects;
+using Api.Infrastructure.Data;
 
 
 namespace Api.App.Queries.GetTaskById
@@ -36,7 +36,7 @@ namespace Api.App.Queries.GetTaskById
 					Title = t.Title,
 					Description = t.Description,
 					Deadline = t.Deadline,
-					Status = t.Status
+					Status = t.Status.ToString(),
 				})
 				.FirstOrDefaultAsync();
 		}

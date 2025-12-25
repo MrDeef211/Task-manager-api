@@ -2,7 +2,7 @@
 using Api.Model.Entity;
 
 
-namespace Api.Data
+namespace Api.Infrastructure.Data
 {
 	public class ApplicationDbContext : DbContext
 	{

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Api.Data;
 using Api.App.Objects;
+using Api.Infrastructure.Data;
 
 namespace Api.App.Queries.GetTasks
 {
@@ -67,7 +67,7 @@ namespace Api.App.Queries.GetTasks
 					CreatedAt = t.CreatedAt,
 					StartedAt = t.StartedAt,
 					CompletedAt = t.CompletedAt,
-					Status = t.Status
+					Status = t.Status.ToString()
 				})
 				.ToListAsync();
 		}
