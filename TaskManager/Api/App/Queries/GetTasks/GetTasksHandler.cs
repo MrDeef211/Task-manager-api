@@ -1,79 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Api.App.Interfaces;
 using Api.App.Objects;
 using Api.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.App.Queries.GetTasks
 {
 	/// <summary>
 	/// Получить задачи
+	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
 	public class GetTasksHandler
 	{
-		// Я оставил и обработчики запросов, и сервисы для работы с задачами,
-		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
-		// А обработчики для парса запросов
+		private readonly ITaskQueryService _queryService;
 
-		private readonly ApplicationDbContext _context;
-
-		/// <summary>
-		/// Получить задачи
-		/// </summary>
-		/// <param name="context">Таблица задач</param>
-		public GetTasksHandler(ApplicationDbContext context)
+		public GetTasksHandler(ITaskQueryService QueryService)
 		{
-			_context = context;
+			_queryService = QueryService;
 		}
 
-		/// <summary>
-		/// Получить задачи
-		/// </summary>
-		/// <param name="query">Данные задач для запроса</param>
-		/// <returns></returns>
-		public async Task<List<TaskDto>> HandleAsync(GetTasks taskData)
+		public async Task Handle(GetTasks taskData, CancellationToken ct)
 		{
-			// AsQueryable чтобы сначала сформировать запросы, а уже потом получить данные
-			var tasks = _context.Tasks.AsQueryable();
-
-			if (!string.IsNullOrWhiteSpace(taskData.Status))
-			{
-				tasks = tasks.Where(t => t.Status.ToString() == taskData.Status);
-			}
-
-			if (taskData.FromDate.HasValue)
-			{
-				tasks = tasks.Where(t => t.CreatedAt >= taskData.FromDate.Value);
-			}
-
-			if (taskData.ToDate.HasValue)
-			{
-				tasks = tasks.Where(t => t.CreatedAt <= taskData.ToDate.Value);
-			}
-
-			// HardSearch в приоритете
-			if (!string.IsNullOrWhiteSpace(taskData.HardSearch))
-			{
-				tasks = tasks.Where(t => t.Title.Contains(taskData.HardSearch));
-			}
-			else if (!string.IsNullOrWhiteSpace(taskData.Search))
-			    {
-				    tasks = tasks.Where(t =>
-					t.Title.Contains(taskData.Search) ||
-					t.Description.Contains(taskData.Search));
-			    }
-
-			return await tasks
-				.Select(t => new TaskDto
-				{
-					Id = t.Id,
-					Title = t.Title,
-					Description = t.Description,
-					Deadline = t.Deadline,
-					CreatedAt = t.CreatedAt,
-					StartedAt = t.StartedAt,
-					CompletedAt = t.CompletedAt,
-					Status = t.Status.ToString()
-				})
-				.ToListAsync();
+			await _queryService.GetTasksAsync(taskData);
 		}
 	}
 }

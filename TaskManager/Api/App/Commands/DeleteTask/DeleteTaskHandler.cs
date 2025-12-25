@@ -5,39 +5,20 @@ namespace Api.App.Commands.DeleteTask
 {
 	/// <summary>
 	/// Удаление задачи
+	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
 	public class DeleteTaskHandler
 	{
-		private readonly ITaskEventRepository _eventRepository;
-		private readonly ITaskRepository _taskRepository;
+		private readonly ITaskService _taskService;
 
-		/// <summary>
-		/// Изменение статуса задачи на начатое
-		/// </summary>
-		/// <param name="eventRepository">База запросов</param>
-		/// <param name="taskRepository">База задач</param>
-		public DeleteTaskHandler(
-			ITaskEventRepository eventRepository,
-			ITaskRepository taskRepository)
+		public DeleteTaskHandler(ITaskService taskService)
 		{
-			_eventRepository = eventRepository;
-			_taskRepository = taskRepository;
+			_taskService = taskService;
 		}
 
-		/// <summary>
-		/// Асинхронное изменение статуса задачи на начатое
-		/// </summary>
-		/// <param name="taskData">Данные задачи для команды</param>
-		/// <returns></returns>
-		public async void HandleAsync(DeleteTask taskData)
+		public async Task Handle(DeleteTask taskData, CancellationToken ct)
 		{
-			var @event = new TaskDeletedEvent
-			{
-				TaskId = taskData.TaskId,
-			};
-
-			await _eventRepository.AddAsync(@event);
-			await _taskRepository.ApplyAsync(@event);
+			await _taskService.DeleteAsync(taskData);
 		}
 	}
 }

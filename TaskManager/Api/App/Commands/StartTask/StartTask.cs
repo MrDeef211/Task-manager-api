@@ -1,9 +1,11 @@
-﻿namespace Api.App.Commands.StartTask
+﻿using MediatR;
+
+namespace Api.App.Commands.StartTask
 {
 	/// <summary>
 	/// Данные для начала выполнения задачи
 	/// </summary>
-	public class StartTask
+	public class StartTask : IRequest
 	{
 		/// <summary>
 		/// Id задачи

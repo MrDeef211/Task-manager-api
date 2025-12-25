@@ -5,44 +5,20 @@ namespace Api.App.Commands.StartTask
 {
 	/// <summary>
 	/// Изменение статуса задачи на начатое
+	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
 	public class StartTaskHandler
 	{
-		// Я оставил и обработчики команд, и сервис для работы с задачами,
-		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
-		// А обработчики для парса команд
+		private readonly ITaskService _taskService;
 
-		private readonly ITaskEventRepository _eventRepository;
-		private readonly ITaskRepository _taskRepository;
-
-		/// <summary>
-		/// Изменение статуса задачи на начатое
-		/// </summary>
-		/// <param name="eventRepository">База запросов</param>
-		/// <param name="taskRepository">База задач</param>
-		public StartTaskHandler(
-			ITaskEventRepository eventRepository,
-			ITaskRepository taskRepository)
+		public StartTaskHandler(ITaskService taskService)
 		{
-			_eventRepository = eventRepository;
-			_taskRepository = taskRepository;
+			_taskService = taskService;
 		}
 
-		/// <summary>
-		/// Асинхронное изменение статуса задачи на начатое
-		/// </summary>
-		/// <param name="taskData">Данные задачи для команды</param>
-		/// <returns></returns>
-		public async void HandleAsync(StartTask taskData)
+		public async Task Handle(StartTask taskData, CancellationToken ct)
 		{
-			var @event = new TaskStartedEvent
-			{
-				TaskId = taskData.TaskId,
-				StartedAt = DateTime.UtcNow
-			};
-
-			await _eventRepository.AddAsync(@event);
-			await _taskRepository.ApplyAsync(@event);
+			await _taskService.StartAsync(taskData);
 		}
 	}
 }

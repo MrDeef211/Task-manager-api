@@ -1,9 +1,11 @@
-﻿namespace Api.App.Commands.CreateTask
+﻿using MediatR;
+
+namespace Api.App.Commands.CreateTask
 {
 	/// <summary>
 	/// Данные для вызова создания задачи
 	/// </summary>
-	public class CreateTask
+	public class CreateTask : IRequest
 	{
 		/// <summary>
 		/// Название задачи

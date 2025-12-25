@@ -5,47 +5,20 @@ namespace Api.App.Commands.UpdateTask
 {
 	/// <summary>
 	/// Обновление задачи
+	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
 	public class UpdateTaskHandler
 	{
-		// Я оставил и обработчики команд, и сервис для работы с задачами,
-		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
-		// А обработчики для парса команд
+		private readonly ITaskService _taskService;
 
-		private readonly ITaskEventRepository _eventRepository;
-		private readonly ITaskRepository _taskRepository;
-
-		/// <summary>
-		/// Обновление задачи
-		/// </summary>
-		/// <param name="eventRepository">База событий</param>
-		/// <param name="taskRepository">База задач</param>
-		public UpdateTaskHandler(
-			ITaskEventRepository eventRepository,
-			ITaskRepository taskRepository)
+		public UpdateTaskHandler(ITaskService taskService)
 		{
-			_eventRepository = eventRepository;
-			_taskRepository = taskRepository;
+			_taskService = taskService;
 		}
 
-		/// <summary>
-		/// Асинхронное обновление задачи
-		/// </summary>
-		/// <param name="taskData">Данные задачи для команды</param>
-		/// <returns></returns>
-		public async void HandleAsync(UpdateTask taskData)
+		public async Task Handle(UpdateTask taskData, CancellationToken ct)
 		{
-
-			var @event = new TaskUpdatedEvent
-			{
-				TaskId = taskData.TaskId,
-				Title = taskData.Title,
-				Description = taskData.Description,
-				Deadline = taskData.Deadline
-			};
-
-			await _eventRepository.AddAsync(@event);
-			await _taskRepository.ApplyAsync(@event);
+			await _taskService.UpdateAsync(taskData);
 		}
 	}
 }

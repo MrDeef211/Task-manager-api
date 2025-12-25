@@ -1,9 +1,11 @@
-﻿namespace Api.App.Commands.DeleteTask
+﻿using MediatR;
+
+namespace Api.App.Commands.DeleteTask
 {
 	/// <summary>
 	/// Данные для удаления задачи
 	/// </summary>
-	public class DeleteTask
+	public class DeleteTask : IRequest
 	{
 		/// <summary>
 		/// Id задачи

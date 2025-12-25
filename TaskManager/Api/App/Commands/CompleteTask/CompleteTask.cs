@@ -1,9 +1,11 @@
-﻿namespace Api.App.Commands.CompleteTask
+﻿using MediatR;
+
+namespace Api.App.Commands.CompleteTask
 {
 	/// <summary>
 	/// Данные для выполнения задачи
 	/// </summary>
-	public class CompleteTask
+	public class CompleteTask : IRequest
 	{
 		/// <summary>
 		/// Id задачи

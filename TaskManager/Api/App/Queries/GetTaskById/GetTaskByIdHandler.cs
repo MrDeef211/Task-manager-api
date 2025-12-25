@@ -1,48 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Api.App.Commands.UpdateTask;
+using Api.App.Interfaces;
 using Api.App.Objects;
 using Api.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 
 
 namespace Api.App.Queries.GetTaskById
 {
 	/// <summary>
 	/// Получить задачу по id
+	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
 	public class GetTaskByIdHandler
 	{
-		// Я оставил и обработчики запросов, и сервисы для работы с задачами,
-		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
-		// А обработчики для парса запросов
+		private readonly ITaskQueryService _queryService;
 
-		private readonly ApplicationDbContext _context;
-
-		/// <summary>
-		/// Получить задачу по id
-		/// </summary>
-		/// <param name="context">Таблица задач</param>
-		public GetTaskByIdHandler(ApplicationDbContext context)
+		public GetTaskByIdHandler(ITaskQueryService QueryService)
 		{
-			_context = context;
+			_queryService = QueryService;
 		}
 
-		/// <summary>
-		/// Получить задачу по id асинхронно
-		/// </summary>
-		/// <param name="taskData">Данные задачи для запроса</param>
-		/// <returns></returns>
-		public async Task<TaskDto?> HandleAsync(GetTaskById taskData)
+		public async Task Handle(GetTaskById taskData, CancellationToken ct)
 		{
-			return await _context.Tasks
-				.Where(t => t.Id == taskData.TaskId)
-				.Select(t => new TaskDto
-				{
-					Id = t.Id,
-					Title = t.Title,
-					Description = t.Description,
-					Deadline = t.Deadline,
-					Status = t.Status.ToString(),
-				})
-				.FirstOrDefaultAsync();
+			await _queryService.GetTaskByIdAsync(taskData);
 		}
 	}
 }

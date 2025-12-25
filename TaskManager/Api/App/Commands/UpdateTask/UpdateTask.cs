@@ -1,9 +1,11 @@
-﻿namespace Api.App.Commands.UpdateTask
+﻿using MediatR;
+
+namespace Api.App.Commands.UpdateTask
 {
 	/// <summary>
 	/// Данные для изменения задачи
 	/// </summary>
-	public class UpdateTask
+	public class UpdateTask : IRequest
 	{
 		/// <summary>
 		/// Id задачи

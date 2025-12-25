@@ -1,50 +1,25 @@
-﻿using Api.Model.Events;
-using Api.App.Interfaces;
+﻿using Api.App.Interfaces;
+using Api.Model.Events;
+using MediatR;
 
 namespace Api.App.Commands.CompleteTask
 {
 	/// <summary>
 	/// Изменение статуса задачи на выполненное
+	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
-	public class CompleteTaskHandler
+	public class CompleteTaskHandler : IRequestHandler<CompleteTask>
 	{
-		// Я оставил и обработчики команд, и сервис для работы с задачами,
-		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
-		// А обработчики для парса команд
+		private readonly ITaskService _taskService;
 
-		private readonly ITaskEventRepository _eventRepository;
-		private readonly ITaskRepository _taskRepository;
-
-		/// <summary>
-		/// Изменение статуса задачи на выполненное
-		/// </summary>
-		/// <param name="eventRepository">База запросов</param>
-		/// <param name="taskRepository">База задач</param>
-		public CompleteTaskHandler(
-			ITaskEventRepository eventRepository,
-			ITaskRepository taskRepository)
+		public CompleteTaskHandler(ITaskService taskService)
 		{
-			_eventRepository = eventRepository;
-			_taskRepository = taskRepository;
+			_taskService = taskService;
 		}
 
-
-		/// <summary>
-		/// Асинхронное изменение статуса задачи на выполненное
-		/// </summary>
-		/// <param name="taskData">Данные задачи для команды</param>
-		/// <returns></returns>
-		public async void HandleAsync(CompleteTask taskData)
+		public async Task Handle(CompleteTask taskData, CancellationToken ct)
 		{
-
-			var @event = new TaskCompletedEvent
-			{
-				TaskId = taskData.TaskId,
-				CompletedAt = DateTime.UtcNow
-			};
-
-			await _eventRepository.AddAsync(@event);
-			await _taskRepository.ApplyAsync(@event);
+			await _taskService.CompleteAsync(taskData);
 		}
 	}
 }

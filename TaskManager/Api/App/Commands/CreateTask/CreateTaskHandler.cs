@@ -5,51 +5,20 @@ namespace Api.App.Commands.CreateTask
 {
 	/// <summary>
 	/// Создание задачи
+	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
 	public class CreateTaskHandler
 	{
-		// Я оставил и обработчики команд, и сервис для работы с задачами,
-		// В сервис можно ещё добавить какую-то бизнес-логику, если потребуется
-		// А обработчики для парса команд
+		private readonly ITaskService _taskService;
 
-		private readonly ITaskEventRepository _eventRepository;
-		private readonly ITaskRepository _taskRepository;
-
-		/// <summary>
-		/// Создание задачи
-		/// </summary>
-		/// <param name="eventRepository">База запросов</param>
-		/// <param name="taskRepository">База задач</param>
-		public CreateTaskHandler(
-			ITaskEventRepository eventRepository,
-			ITaskRepository taskRepository )
+		public CreateTaskHandler(ITaskService taskService)
 		{
-			_eventRepository = eventRepository;
-			_taskRepository = taskRepository;
+			_taskService = taskService;
 		}
 
-		/// <summary>
-		/// Асинхронное создание задачи
-		/// </summary>
-		/// <param name="taskData">Данные задачи для команды</param>
-		/// <returns></returns>
-		public async Task<Guid> HandleAsync(CreateTask taskData)
+		public async Task Handle(CreateTask taskData, CancellationToken ct)
 		{
-			var taskId = Guid.NewGuid();
-
-			var @event = new TaskCreatedEvent
-			{
-				TaskId = taskId,
-				Title = taskData.Title,
-				Description = taskData.Description,
-				Deadline = taskData.Deadline,
-				CreatedAt = DateTime.UtcNow
-			};
-
-			await _eventRepository.AddAsync(@event);
-			await _taskRepository.ApplyAsync(@event);
-
-			return taskId;
+			await _taskService.CreateAsync(taskData);
 		}
 	}
 }
