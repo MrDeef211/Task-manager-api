@@ -17,9 +17,10 @@ namespace Api.App.Commands.CompleteTask
 			_taskService = taskService;
 		}
 
-		public async Task Handle(CompleteTask taskData, CancellationToken ct)
+		public async Task<Unit> Handle(CompleteTask taskData, CancellationToken ct)
 		{
 			await _taskService.CompleteAsync(taskData);
+			return Unit.Value; 
 		}
 	}
 }

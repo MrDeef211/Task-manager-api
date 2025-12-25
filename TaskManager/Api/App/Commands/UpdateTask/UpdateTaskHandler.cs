@@ -1,5 +1,6 @@
-﻿using Api.Model.Events;
-using Api.App.Interfaces;
+﻿using Api.App.Interfaces;
+using Api.Model.Events;
+using MediatR;
 
 namespace Api.App.Commands.UpdateTask
 {
@@ -16,9 +17,10 @@ namespace Api.App.Commands.UpdateTask
 			_taskService = taskService;
 		}
 
-		public async Task Handle(UpdateTask taskData, CancellationToken ct)
+		public async Task<Unit> Handle(UpdateTask taskData, CancellationToken ct)
 		{
 			await _taskService.UpdateAsync(taskData);
+			return Unit.Value;
 		}
 	}
 }

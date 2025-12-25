@@ -1,5 +1,6 @@
 ﻿using Api.App.Interfaces;
 using Api.Model.Events;
+using MediatR;
 
 namespace Api.App.Commands.DeleteTask
 {
@@ -16,9 +17,10 @@ namespace Api.App.Commands.DeleteTask
 			_taskService = taskService;
 		}
 
-		public async Task Handle(DeleteTask taskData, CancellationToken ct)
+		public async Task<Unit> Handle(DeleteTask taskData, CancellationToken ct)
 		{
 			await _taskService.DeleteAsync(taskData);
+			return Unit.Value;
 		}
 	}
 }

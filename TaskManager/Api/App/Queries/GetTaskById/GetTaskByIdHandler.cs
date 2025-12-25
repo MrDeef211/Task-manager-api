@@ -2,6 +2,7 @@
 using Api.App.Interfaces;
 using Api.App.Objects;
 using Api.Infrastructure.Data;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -21,9 +22,10 @@ namespace Api.App.Queries.GetTaskById
 			_queryService = QueryService;
 		}
 
-		public async Task Handle(GetTaskById taskData, CancellationToken ct)
+		public async Task<Unit> Handle(GetTaskById taskData, CancellationToken ct)
 		{
 			await _queryService.GetTaskByIdAsync(taskData);
+			return Unit.Value;
 		}
 	}
 }
