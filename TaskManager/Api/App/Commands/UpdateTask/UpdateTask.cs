@@ -1,9 +1,9 @@
-﻿namespace Api.Model.Events
+﻿namespace Api.App.Commands.UpdateTask
 {
 	/// <summary>
-	/// Данные для события изменения данных задачи
+	/// Данные для изменения задачи
 	/// </summary>
-	public class TaskUpdatedEvent
+	public class UpdateTask
 	{
 		/// <summary>
 		/// Id задачи

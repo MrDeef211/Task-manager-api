@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Данные для события начала выполнения задачи
 	/// </summary>
-	public class TaskStarted
+	public class TaskStartedEvent
 	{
 		/// <summary>
 		/// Id начинаемой задачи

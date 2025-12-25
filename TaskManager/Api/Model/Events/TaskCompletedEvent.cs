@@ -3,12 +3,12 @@
 	/// <summary>
 	/// Данные для события завершения задачи
 	/// </summary>
-	public class TaskCompleted
+	public class TaskCompletedEvent
 	{
 		/// <summary>
 		/// Id задачи
 		/// </summary>
-		public Guid Id { get; set; }
+		public Guid TaskId { get; set; }
 		/// <summary>
 		/// Время выполнения задачи
 		/// </summary>

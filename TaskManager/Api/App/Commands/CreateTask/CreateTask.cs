@@ -1,14 +1,10 @@
-﻿namespace Api.Model.Events
+﻿namespace Api.App.Commands.CreateTask
 {
 	/// <summary>
-	/// Данные для события изменения данных задачи
+	/// Данные для вызова создания задачи
 	/// </summary>
-	public class TaskUpdatedEvent
+	public class CreateTask
 	{
-		/// <summary>
-		/// Id задачи
-		/// </summary>
-		public Guid TaskId { get; set; }
 		/// <summary>
 		/// Название задачи
 		/// </summary>
