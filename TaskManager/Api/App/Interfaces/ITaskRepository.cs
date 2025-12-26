@@ -1,4 +1,6 @@
-﻿using Api.Model.Entity;
+﻿using Api.App.Objects;
+using Api.App.Queries.GetTaskById;
+using Api.Model.Entity;
 using Api.Model.Events;
 
 namespace Api.App.Interfaces
@@ -35,7 +37,7 @@ namespace Api.App.Interfaces
 		/// <summary>
 		/// Удалить задачу
 		/// </summary>
-		/// <param name="event">Данные из события для удаления</param>
+		/// <param name="event">Данные для удаления</param>
 		/// <returns></returns>
 		Task ApplyAsync(TaskDeletedEvent @event);
 		/// <summary>
@@ -46,6 +48,12 @@ namespace Api.App.Interfaces
 		/// </remarks>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		Task<TaskEntity?> GetByIdAsync(Guid id);
+		Task<TaskDto?> GetByIdAsync(Guid id);
+		/// <summary>
+		/// Получить информацию о существовании задачи по идентификатору
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		Task<bool> ExistsAsync(Guid id);
 	}
 }
