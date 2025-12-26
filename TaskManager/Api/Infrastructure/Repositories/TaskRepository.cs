@@ -1,8 +1,9 @@
 ﻿using Api.App.Interfaces;
 using Api.Infrastructure.Data;
 using Api.Model.Entity;
-using Api.Model.Events;
 using Api.Model.Enums;
+using Api.Model.Events;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Api.Infrastructure.Repositories
@@ -107,6 +108,19 @@ namespace Api.Infrastructure.Repositories
 				_context.Tasks.Remove(task);
 				await _context.SaveChangesAsync();
 			}
+		}
+
+		/// <summary>
+		/// Получить задачу по идентификатору
+		/// </summary>
+		/// <remarks> 
+		/// Без этого метода не получится сделать валидацию в service
+		/// </remarks>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<TaskEntity?> GetByIdAsync(Guid id)
+		{
+			return await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
 		}
 	}
 }

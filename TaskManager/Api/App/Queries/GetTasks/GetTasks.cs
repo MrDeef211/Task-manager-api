@@ -1,9 +1,12 @@
-﻿namespace Api.App.Queries.GetTasks
+﻿using Api.App.Objects;
+using MediatR;
+
+namespace Api.App.Queries.GetTasks
 {
 	/// <summary>
 	/// Данные для запроса таблицы задач
 	/// </summary>
-	public class GetTasks
+	public class GetTasks : IRequest<List<TaskDto>>
 	{
 		/// <summary>
 		/// Статус задачи

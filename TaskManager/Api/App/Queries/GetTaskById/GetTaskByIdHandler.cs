@@ -13,7 +13,7 @@ namespace Api.App.Queries.GetTaskById
 	/// Получить задачу по id
 	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
-	public class GetTaskByIdHandler
+	public class GetTaskByIdHandler : IRequestHandler<GetTaskById, TaskDto>
 	{
 		private readonly ITaskQueryService _queryService;
 
@@ -22,10 +22,10 @@ namespace Api.App.Queries.GetTaskById
 			_queryService = QueryService;
 		}
 
-		public async Task<Unit> Handle(GetTaskById taskData, CancellationToken ct)
+		public async Task<TaskDto> Handle(GetTaskById taskData, CancellationToken ct)
 		{
-			await _queryService.GetTaskByIdAsync(taskData);
-			return Unit.Value;
+			var value = await _queryService.GetTaskByIdAsync(taskData);
+			return value;
 		}
 	}
 }

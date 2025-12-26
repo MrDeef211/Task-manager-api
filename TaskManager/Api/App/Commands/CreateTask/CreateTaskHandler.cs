@@ -8,7 +8,7 @@ namespace Api.App.Commands.CreateTask
 	/// Создание задачи
 	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
-	public class CreateTaskHandler
+	public class CreateTaskHandler : IRequestHandler<CreateTask, Guid>
 	{
 		private readonly ITaskService _taskService;
 
@@ -17,10 +17,10 @@ namespace Api.App.Commands.CreateTask
 			_taskService = taskService;
 		}
 
-		public async Task<Unit> Handle(CreateTask taskData, CancellationToken ct)
+		public async Task<Guid> Handle(CreateTask taskData, CancellationToken ct)
 		{
-			await _taskService.CreateAsync(taskData);
-			return Unit.Value;
+			var value = await _taskService.CreateAsync(taskData);
+			return value;
 		}
 	}
 }

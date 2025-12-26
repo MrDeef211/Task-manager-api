@@ -5,7 +5,7 @@ namespace Api.App.Commands.CreateTask
 	/// <summary>
 	/// Данные для вызова создания задачи
 	/// </summary>
-	public class CreateTask : IRequest
+	public class CreateTask : IRequest<Guid>
 	{
 		/// <summary>
 		/// Название задачи

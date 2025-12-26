@@ -14,13 +14,13 @@ namespace Api.App.Interfaces
 		/// </summary>
 		/// <param name="query">Данные задач для запроса</param>
 		/// <returns></returns>
-		Task<List<Objects.TaskDto>> GetTasksAsync(GetTasks query);
+		Task<List<Objects.TaskDto>> GetTasksAsync(GetTasks taskData);
 
 		/// <summary>
 		/// Получить задачу по id
 		/// </summary>
 		/// <param name="query">Данные задач для запроса</param>
 		/// <returns></returns>
-		Task<Objects.TaskDto?> GetTaskByIdAsync(GetTaskById query);
+		Task<Objects.TaskDto?> GetTaskByIdAsync(GetTaskById taskData);
 	}
 }

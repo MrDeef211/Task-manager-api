@@ -2,7 +2,9 @@
 using Api.App.Queries.GetTaskById;
 using Api.App.Queries.GetTasks;
 using Api.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Api.App.Interfaces;
 
 namespace Api.App.Services
 {
@@ -10,7 +12,7 @@ namespace Api.App.Services
 	/// Сервис для запросов
 	/// Содержит бизнес логику (пока ещё не особо)
 	/// </summary>
-	public class TaskQueryService
+	public class TaskQueryService : ITaskQueryService
 	{
 
 		private readonly ApplicationDbContext _context;
@@ -29,7 +31,7 @@ namespace Api.App.Services
 		/// </summary>
 		/// <param name="query">Данные задач для запроса</param>
 		/// <returns></returns>
-		public async Task<List<TaskDto>> HandleAsync(GetTasks taskData)
+		public async Task<List<Objects.TaskDto>> GetTasksAsync(GetTasks taskData)
 		{
 			// AsQueryable чтобы сначала сформировать запросы, а уже потом получить данные
 			var tasks = _context.Tasks.AsQueryable();
@@ -81,7 +83,7 @@ namespace Api.App.Services
 		/// </summary>
 		/// <param name="taskData">Данные задачи для запроса</param>
 		/// <returns></returns>
-		public async Task<TaskDto?> HandleAsync(GetTaskById taskData)
+		public async Task<Objects.TaskDto?> GetTaskByIdAsync(GetTaskById taskData)
 		{
 			return await _context.Tasks
 				.Where(t => t.Id == taskData.TaskId)

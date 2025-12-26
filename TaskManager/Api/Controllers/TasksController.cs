@@ -30,8 +30,8 @@ namespace Api.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create([FromBody] CreateTask taskData)
 		{
-			await _mediator.Send(taskData);
-			return Ok();
+			var result = await _mediator.Send(taskData);
+			return Ok(result);
 		}
 
 		[HttpPut("{id:guid}")]

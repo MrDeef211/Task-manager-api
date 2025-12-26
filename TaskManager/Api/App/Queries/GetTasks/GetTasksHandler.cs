@@ -10,7 +10,7 @@ namespace Api.App.Queries.GetTasks
 	/// Получить задачи
 	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
-	public class GetTasksHandler
+	public class GetTasksHandler : IRequestHandler<GetTasks, List<TaskDto>>
 	{
 		private readonly ITaskQueryService _queryService;
 
@@ -19,10 +19,10 @@ namespace Api.App.Queries.GetTasks
 			_queryService = QueryService;
 		}
 
-		public async Task<Unit> Handle(GetTasks taskData, CancellationToken ct)
+		public async Task<List<TaskDto>> Handle(GetTasks taskData, CancellationToken ct)
 		{
-			await _queryService.GetTasksAsync(taskData);
-			return Unit.Value;
+			var value = await _queryService.GetTasksAsync(taskData);
+			return value;
 		}
 	}
 }

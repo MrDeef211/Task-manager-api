@@ -1,9 +1,12 @@
-﻿namespace Api.App.Queries.GetTaskById
+﻿using MediatR;
+using Api.App.Objects;
+
+namespace Api.App.Queries.GetTaskById
 {
 	/// <summary>
 	/// Данные для запроса задачи по id
 	/// </summary>
-	public class GetTaskById
+	public class GetTaskById : IRequest<TaskDto>
 	{
 		/// <summary>
 		/// Id задачи

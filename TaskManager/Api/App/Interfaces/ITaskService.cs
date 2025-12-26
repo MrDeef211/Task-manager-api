@@ -17,7 +17,7 @@ namespace Api.App.Interfaces
 		/// </summary>
 		/// <param name="taskData">Данные для создания задачи</param>
 		/// <returns></returns>
-		Task CreateAsync(CreateTask taskData);
+		Task<Guid> CreateAsync(CreateTask taskData);
 		/// <summary>
 		/// Начать выполнение задачи
 		/// </summary>

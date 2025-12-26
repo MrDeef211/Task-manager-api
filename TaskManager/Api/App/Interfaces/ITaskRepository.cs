@@ -1,9 +1,10 @@
-﻿using Api.Model.Events;
+﻿using Api.Model.Entity;
+using Api.Model.Events;
 
 namespace Api.App.Interfaces
 {
 	/// <summary>
-	/// Интерфейс для работы с задачами
+	/// Интерфейс для работы с базой данных задач
 	/// </summary>
 	public interface ITaskRepository
 	{
@@ -37,5 +38,14 @@ namespace Api.App.Interfaces
 		/// <param name="event">Данные из события для удаления</param>
 		/// <returns></returns>
 		Task ApplyAsync(TaskDeletedEvent @event);
+		/// <summary>
+		/// Получить задачу по идентификатору
+		/// </summary>
+		/// <remarks> 
+		/// Без этого метода не получится сделать валидацию в service
+		/// </remarks>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		Task<TaskEntity?> GetByIdAsync(Guid id);
 	}
 }

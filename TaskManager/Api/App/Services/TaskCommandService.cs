@@ -3,10 +3,11 @@ using Api.App.Commands.CreateTask;
 using Api.App.Commands.DeleteTask;
 using Api.App.Commands.StartTask;
 using Api.App.Commands.UpdateTask;
-using Api.Model.Exceptions;
 using Api.App.Interfaces;
-using Api.Model.Events;
 using Api.Model.Enums;
+using Api.Model.Events;
+using Api.Model.Exceptions;
+using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Api.App.Services
@@ -35,7 +36,7 @@ namespace Api.App.Services
 		}
 
 
-		public async Task CreateAsync(CreateTask taskData)
+		public async Task<Guid> CreateAsync(CreateTask taskData)
 		{
 			//Конструкторы решил пока не делать
 			var taskId = Guid.NewGuid();
@@ -51,10 +52,16 @@ namespace Api.App.Services
 
 			await _eventRepository.AddAsync(@event);
 			await _taskRepository.ApplyAsync(@event);
+
+			return taskId;
 		}
 
 		public async Task UpdateAsync(UpdateTask taskData)
 		{
+			var task = await _taskRepository.GetByIdAsync(taskData.TaskId);
+
+			if (task.Status == TaskStatusEnum.Completed)
+				throw new DomainException("Нельзя редактировать завершённую задачу");
 
 			//Конструкторы решил пока не делать
 			var @event = new TaskUpdatedEvent
