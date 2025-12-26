@@ -1,0 +1,42 @@
+Using project 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj'.
+Using startup project 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj'.
+Writing 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\obj\Api.csproj.EntityFrameworkCore.targets'...
+dotnet msbuild /target:GetEFProjectMetadata /property:EFProjectMetadataFile=C:\Users\baran\AppData\Local\Temp\tmp34afhk.tmp /verbosity:quiet /nologo C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj
+Writing 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\obj\Api.csproj.EntityFrameworkCore.targets'...
+dotnet msbuild /target:GetEFProjectMetadata /property:EFProjectMetadataFile=C:\Users\baran\AppData\Local\Temp\tmp4i2xnm.tmp /verbosity:quiet /nologo C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj
+Build started...
+dotnet build C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj /verbosity:quiet /nologo /p:PublishAot=false
+
+Сборка успешно завершена.
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:01.47
+Build succeeded.
+dotnet exec --depsfile C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\bin\Debug\net8.0\Api.deps.json --additionalprobingpath C:\Users\baran\.nuget\packages --additionalprobingpath "C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages" --runtimeconfig C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\bin\Debug\net8.0\Api.runtimeconfig.json C:\Users\baran\.dotnet\tools\.store\dotnet-ef\8.0.0\dotnet-ef\8.0.0\tools\net8.0\any\tools\netcoreapp2.0\any\ef.dll migrations add InitialCreate --assembly C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\bin\Debug\net8.0\Api.dll --project C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj --startup-assembly C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\bin\Debug\net8.0\Api.dll --startup-project C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Api.csproj --project-dir C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\ --root-namespace Api --language C# --framework net8.0 --nullable --working-dir C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api --verbose
+Using assembly 'Api'.
+Using startup assembly 'Api'.
+Using application base 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\bin\Debug\net8.0'.
+Using working directory 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api'.
+Using root namespace 'Api'.
+Using project directory 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\'.
+Remaining arguments: .
+Finding DbContext classes...
+Finding IDesignTimeDbContextFactory implementations...
+Finding application service provider in assembly 'Api'...
+Finding Microsoft.Extensions.Hosting service provider...
+Using environment 'Development'.
+Using application service provider from Microsoft.Extensions.Hosting.
+Found DbContext 'ApplicationDbContext'.
+Finding DbContext classes in the project...
+Using context 'ApplicationDbContext'.
+Finding design-time services referenced by assembly 'Api'...
+Finding design-time services referenced by assembly 'Api'...
+No referenced design-time services were found.
+Finding design-time services for provider 'Npgsql.EntityFrameworkCore.PostgreSQL'...
+Using design-time services from provider 'Npgsql.EntityFrameworkCore.PostgreSQL'.
+Finding IDesignTimeServices implementations in assembly 'Api'...
+No design-time services were found.
+Writing migration to 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Migrations\20251225194455_InitialCreate.cs'.
+Writing model snapshot to 'C:\Users\baran\Documents\GitHub\Task-manager-api\TaskManager\Api\Migrations\ApplicationDbContextModelSnapshot.cs'.
+Done. To undo this action, use 'ef migrations remove'
