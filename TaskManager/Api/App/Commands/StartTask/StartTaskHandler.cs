@@ -8,7 +8,7 @@ namespace Api.App.Commands.StartTask
 	/// Изменение статуса задачи на начатое
 	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
-	public class StartTaskHandler
+	public class StartTaskHandler : IRequestHandler<StartTask, Unit>
 	{
 		private readonly ITaskService _taskService;
 

@@ -8,7 +8,7 @@ namespace Api.App.Commands.UpdateTask
 	/// Обновление задачи
 	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
-	public class UpdateTaskHandler
+	public class UpdateTaskHandler : IRequestHandler<UpdateTask, Unit>
 	{
 		private readonly ITaskService _taskService;
 

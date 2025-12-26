@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System.Text.Json.Serialization;
 
 namespace Api.App.Commands.UpdateTask
 {
@@ -10,6 +11,11 @@ namespace Api.App.Commands.UpdateTask
 		/// <summary>
 		/// Id задачи
 		/// </summary>
+		/// <remarks>
+		/// Игнорируется при десериализации из тела запроса.
+		/// Загружается через присваивание через headers 
+		/// </remarks>
+		[JsonIgnore]
 		public Guid TaskId { get; set; }
 		/// <summary>
 		/// Название задачи

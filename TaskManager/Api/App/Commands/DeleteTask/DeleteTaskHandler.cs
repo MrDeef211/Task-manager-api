@@ -8,7 +8,7 @@ namespace Api.App.Commands.DeleteTask
 	/// Удаление задачи
 	/// Используется как прослойка между медиатором и сервисом
 	/// </summary>
-	public class DeleteTaskHandler
+	public class DeleteTaskHandler : IRequestHandler<DeleteTask, Unit>
 	{
 		private readonly ITaskService _taskService;
 

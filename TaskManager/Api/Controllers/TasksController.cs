@@ -34,9 +34,10 @@ namespace Api.Controllers
 			return Ok(result);
 		}
 
-		[HttpPut("{id:guid}")]
+		[HttpPut("{id:guid}/update")]
 		public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTask taskData)
 		{
+			taskData.TaskId = id;
 			await _mediator.Send(taskData);
 		    return Ok();
 		}
