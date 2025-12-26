@@ -59,7 +59,7 @@ namespace Api.App.Services
 		public async Task UpdateAsync(UpdateTask taskData)
 		{
 			var task = await _taskRepository.GetByIdAsync(taskData.TaskId);
-
+			// Обращаюсь к репозиторию, чтобы проверить статус задачи
 			if (task.Status == TaskStatusEnum.Completed)
 				throw new DomainException("Нельзя редактировать завершённую задачу");
 
@@ -78,6 +78,15 @@ namespace Api.App.Services
 
 		public async Task StartAsync(StartTask taskData)
 		{
+			var task = await _taskRepository.GetByIdAsync(taskData.TaskId);
+			// Обращаюсь к репозиторию, чтобы проверить статус задачи
+			// Сделал валидацию для тестового задания, в реальности будет мешать юзабилити
+			if (task.Status == TaskStatusEnum.Completed)
+				throw new DomainException("Нельзя начать завершённую задачу");
+
+			if (task.Status == TaskStatusEnum.InProgress)
+				throw new DomainException("Задача уже в процессе выполнения");
+
 			//Конструкторы решил пока не делать
 			var @event = new TaskStartedEvent
 			{
@@ -91,6 +100,15 @@ namespace Api.App.Services
 
 		public async Task CompleteAsync(CompleteTask taskData)
 		{
+			var task = await _taskRepository.GetByIdAsync(taskData.TaskId);
+			// Обращаюсь к репозиторию, чтобы проверить статус задачи
+			// Сделал валидацию для тестового задания, в реальности будет мешать юзабилити
+			if (task.Status == TaskStatusEnum.New)
+				throw new DomainException("Нельзя закончить не начатую задачу");
+
+			if (task.Status == TaskStatusEnum.Completed)
+				throw new DomainException("Задача уже завершена");
+
 			//Конструкторы решил пока не делать
 			var @event = new TaskCompletedEvent
 			{

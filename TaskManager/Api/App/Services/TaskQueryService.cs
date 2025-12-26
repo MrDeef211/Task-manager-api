@@ -79,7 +79,7 @@ namespace Api.App.Services
 		}
 
 		/// <summary>
-		/// Получить задачу по id асинхронно
+		/// Получить задачу по id
 		/// </summary>
 		/// <param name="taskData">Данные задачи для запроса</param>
 		/// <returns></returns>
