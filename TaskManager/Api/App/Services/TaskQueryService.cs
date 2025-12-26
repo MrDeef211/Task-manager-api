@@ -1,10 +1,12 @@
-﻿using Api.App.Objects;
+﻿using Api.App.Interfaces;
+using Api.App.Objects;
 using Api.App.Queries.GetTaskById;
 using Api.App.Queries.GetTasks;
 using Api.Infrastructure.Data;
+using Api.Infrastructure.Repositories;
+using Api.Model.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Api.App.Interfaces;
 
 namespace Api.App.Services
 {
@@ -33,6 +35,7 @@ namespace Api.App.Services
 		/// <returns></returns>
 		public async Task<List<Objects.TaskDto>> GetTasksAsync(GetTasks taskData)
 		{
+
 			// AsQueryable чтобы сначала сформировать запросы, а уже потом получить данные
 			var tasks = _context.Tasks.AsQueryable();
 
@@ -85,6 +88,10 @@ namespace Api.App.Services
 		/// <returns></returns>
 		public async Task<Objects.TaskDto?> GetTaskByIdAsync(GetTaskById taskData)
 		{
+			// Базовая проверка на существование задачи
+			if (!await _context.Tasks.AnyAsync(t => t.Id == taskData.TaskId))
+				throw new DomainException("Задача не найдена");
+
 			return await _context.Tasks
 				.Where(t => t.Id == taskData.TaskId)
 				.Select(t => new TaskDto

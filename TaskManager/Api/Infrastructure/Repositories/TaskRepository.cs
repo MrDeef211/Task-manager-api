@@ -1,4 +1,5 @@
 ﻿using Api.App.Interfaces;
+using Api.App.Objects;
 using Api.Infrastructure.Data;
 using Api.Model.Entity;
 using Api.Model.Enums;
@@ -118,9 +119,29 @@ namespace Api.Infrastructure.Repositories
 		/// </remarks>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public async Task<TaskEntity?> GetByIdAsync(Guid id)
+		public async Task<TaskDto?> GetByIdAsync(Guid id)
 		{
-			return await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
+			return await _context.Tasks
+	            .Where(t => t.Id == id)
+	            .Select(t => new TaskDto
+	        {
+		        Id = t.Id,
+		        Title = t.Title,
+		        Description = t.Description,
+		        Deadline = t.Deadline,
+		        Status = t.Status.ToString(),
+	        })
+	        .FirstOrDefaultAsync();
+		}
+
+		/// <summary>
+		/// Получить информацию о существовании задачи по идентификатору
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<bool> ExistsAsync(Guid id)
+		{
+			return await _context.Tasks.AnyAsync(t => t.Id == id);
 		}
 	}
 }
