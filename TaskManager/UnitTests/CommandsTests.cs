@@ -10,6 +10,7 @@ using Api.Model.Entity;
 using Api.Model.Exceptions;
 using Api.Model.Events;
 using Api.Model.Enums;
+using Api.App.Objects;
 using MediatR;
 using Moq;
 using System;
@@ -111,10 +112,10 @@ namespace UnitTests
 
 			var StartTaskHandler = new StartTaskHandler(service);
 
-			var task = new TaskEntity
+			var task = new TaskDto
 			{
 				Id = Guid.NewGuid(),
-				Status = TaskStatusEnum.New
+				Status = TaskStatusEnum.New.ToString(),
 			};
 
 			var taskData = new StartTask(task.Id);
@@ -122,6 +123,10 @@ namespace UnitTests
 			taskRepoMock
 	            .Setup(r => r.GetByIdAsync(task.Id))
 	            .ReturnsAsync(task);
+
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(true);
 
 			await StartTaskHandler.Handle(taskData, new CancellationToken());
 
@@ -141,7 +146,7 @@ namespace UnitTests
 		}
 
 		[Fact]
-		public async Task StartTaskInProgressThrowsException()
+		public async Task StartTaskIncorrectIdThrowsException()
 		{
 			var taskRepoMock = new Mock<ITaskRepository>();
 
@@ -149,10 +154,9 @@ namespace UnitTests
 
 			var StartTaskHandler = new StartTaskHandler(service);
 
-			var task = new TaskEntity
+			var task = new TaskDto
 			{
 				Id = Guid.NewGuid(),
-				Status = TaskStatusEnum.InProgress
 			};
 
 			var taskData = new StartTask(task.Id);
@@ -161,7 +165,45 @@ namespace UnitTests
 				.Setup(r => r.GetByIdAsync(task.Id))
 				.ReturnsAsync(task);
 
-			Assert.ThrowsAsync<DomainException>(async () => await StartTaskHandler.Handle(taskData, new CancellationToken()));
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(false);
+
+			Func<Task> act = () => StartTaskHandler.Handle(taskData, new CancellationToken());
+
+			await act.Should().ThrowAsync<DomainException>()
+				.WithMessage("Задача не найдена");
+		}
+
+		[Fact]
+		public async Task StartTaskInProgressThrowsException()
+		{
+			var taskRepoMock = new Mock<ITaskRepository>();
+
+			var service = ServiceCreate(taskRepoMock);
+
+			var StartTaskHandler = new StartTaskHandler(service);
+
+			var task = new TaskDto
+			{
+				Id = Guid.NewGuid(),
+				Status = TaskStatusEnum.InProgress.ToString()
+			};
+
+			var taskData = new StartTask(task.Id);
+
+			taskRepoMock
+				.Setup(r => r.GetByIdAsync(task.Id))
+				.ReturnsAsync(task);
+
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(true);
+
+			Func<Task> act = () => StartTaskHandler.Handle(taskData, new CancellationToken());
+
+			await act.Should().ThrowAsync<DomainException>()
+				.WithMessage("Задача уже в процессе выполнения");
 		}
 
 		[Fact]
@@ -173,10 +215,10 @@ namespace UnitTests
 
 			var StartTaskHandler = new StartTaskHandler(service);
 
-			var task = new TaskEntity
+			var task = new TaskDto
 			{
 				Id = Guid.NewGuid(),
-				Status = TaskStatusEnum.Completed
+				Status = TaskStatusEnum.Completed.ToString()
 			};
 
 			var taskData = new StartTask(task.Id);
@@ -185,7 +227,14 @@ namespace UnitTests
 				.Setup(r => r.GetByIdAsync(task.Id))
 				.ReturnsAsync(task);
 
-			Assert.ThrowsAsync<DomainException>(async () => await StartTaskHandler.Handle(taskData, new CancellationToken()));
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(true);
+
+			Func<Task> act = () => StartTaskHandler.Handle(taskData, new CancellationToken());
+
+			await act.Should().ThrowAsync<DomainException>()
+				.WithMessage("Нельзя начать завершённую задачу");
 		}
 
 		[Fact]
@@ -198,10 +247,10 @@ namespace UnitTests
 
 			var CompleteTaskHandler = new CompleteTaskHandler(service);
 
-			var task = new TaskEntity
+			var task = new TaskDto
 			{
 				Id = Guid.NewGuid(),
-				Status = TaskStatusEnum.InProgress
+				Status = TaskStatusEnum.InProgress.ToString()
 			};
 
 			var taskData = new CompleteTask(task.Id);
@@ -209,6 +258,10 @@ namespace UnitTests
 			taskRepoMock
 				.Setup(r => r.GetByIdAsync(task.Id))
 				.ReturnsAsync(task);
+
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(true);
 
 			await CompleteTaskHandler.Handle(taskData, new CancellationToken());
 
@@ -228,7 +281,7 @@ namespace UnitTests
 		}
 
 		[Fact]
-		public async Task CompleteTaskNotStartedThrowsException()
+		public async Task CompleteTaskIncorrectIdThrowsException()
 		{
 			var taskRepoMock = new Mock<ITaskRepository>();
 
@@ -236,10 +289,9 @@ namespace UnitTests
 
 			var CompleteTaskHandler = new CompleteTaskHandler(service);
 
-			var task = new TaskEntity
+			var task = new TaskDto
 			{
 				Id = Guid.NewGuid(),
-				Status = TaskStatusEnum.New 
 			};
 
 			var taskData = new CompleteTask(task.Id);
@@ -248,7 +300,46 @@ namespace UnitTests
 				.Setup(r => r.GetByIdAsync(task.Id))
 				.ReturnsAsync(task);
 
-			Assert.ThrowsAsync<DomainException>(async () => await CompleteTaskHandler.Handle(taskData, new CancellationToken()));
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(false);
+
+			Func<Task> act = () => CompleteTaskHandler.Handle(taskData, new CancellationToken());
+
+			await act.Should().ThrowAsync<DomainException>()
+				.WithMessage("Задача не найдена");
+		}
+
+
+	    [Fact]
+		public async Task CompleteTaskNotStartedThrowsException()
+		{
+			var taskRepoMock = new Mock<ITaskRepository>();
+
+			var service = ServiceCreate(taskRepoMock);
+
+			var CompleteTaskHandler = new CompleteTaskHandler(service);
+
+			var task = new TaskDto
+			{
+				Id = Guid.NewGuid(),
+				Status = TaskStatusEnum.New.ToString()
+			};
+
+			var taskData = new CompleteTask(task.Id);
+
+			taskRepoMock
+				.Setup(r => r.GetByIdAsync(task.Id))
+				.ReturnsAsync(task);
+
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(true);
+
+			Func<Task> act = () => CompleteTaskHandler.Handle(taskData, new CancellationToken());
+
+			await act.Should().ThrowAsync<DomainException>()
+				.WithMessage("Нельзя закончить не начатую задачу");
 		}
 
 		[Fact]
@@ -260,10 +351,10 @@ namespace UnitTests
 
 			var CompleteTaskHandler = new CompleteTaskHandler(service);
 
-			var task = new TaskEntity
+			var task = new TaskDto
 			{
 				Id = Guid.NewGuid(),
-				Status = TaskStatusEnum.Completed
+				Status = TaskStatusEnum.Completed.ToString()
 			};
 
 			var taskData = new CompleteTask(task.Id);
@@ -272,7 +363,14 @@ namespace UnitTests
 				.Setup(r => r.GetByIdAsync(task.Id))
 				.ReturnsAsync(task);
 
-			Assert.ThrowsAsync<DomainException>(async () => await CompleteTaskHandler.Handle(taskData, new CancellationToken()));
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(true);
+
+			Func<Task> act = () => CompleteTaskHandler.Handle(taskData, new CancellationToken());
+
+			await act.Should().ThrowAsync<DomainException>()
+				.WithMessage("Задача уже завершена");
 		}
 
 		[Fact]
@@ -283,37 +381,200 @@ namespace UnitTests
 
 			var service = ServiceCreate(taskRepoMock, eventRepoMock);
 
-			var CompleteTaskHandler = new CompleteTaskHandler(service);
+			var UpdateTaskHandler = new UpdateTaskHandler(service);
 
-			var task = new TaskEntity
+			var task = new TaskDto
 			{
 				Id = Guid.NewGuid(),
-				Status = TaskStatusEnum.InProgress
+				Title = "title",
+				Description = "desc",
+				Deadline = DateTime.UtcNow.AddDays(7)
 			};
 
-			var taskData = new CompleteTask(task.Id);
+			var taskData = new UpdateTask
+			{
+				TaskId = task.Id,
+				Title = "title2",
+				Description = "desc2",
+				Deadline = DateTime.UtcNow.AddDays(8)
+			};
 
 			taskRepoMock
 				.Setup(r => r.GetByIdAsync(task.Id))
 				.ReturnsAsync(task);
 
-			await CompleteTaskHandler.Handle(taskData, new CancellationToken());
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(true);
+
+			await UpdateTaskHandler.Handle(taskData, new CancellationToken());
 
 			taskRepoMock.Verify(
-				r => r.ApplyAsync(It.Is<TaskCompletedEvent>(t =>
+				r => r.ApplyAsync(It.Is<TaskUpdatedEvent>(t =>
+					t.Title == taskData.Title &&
+					t.Description == taskData.Description &&
+					t.Deadline == taskData.Deadline
+				)),
+				Times.Once
+			);
+
+			eventRepoMock.Verify(
+				e => e.AddAsync(It.Is<TaskUpdatedEvent>(ev =>
+				    ev.Title == taskData.Title &&
+					ev.Description == taskData.Description &&
+					ev.Deadline == taskData.Deadline
+				)),
+				Times.Once
+			);
+		}
+
+		[Fact]
+		public async Task UpdateTaskIncorrectIdThrowsException()
+		{
+			var taskRepoMock = new Mock<ITaskRepository>();
+
+			var service = ServiceCreate(taskRepoMock);
+
+			var UpdateTaskHandler = new UpdateTaskHandler(service);
+
+			var task = new TaskDto
+			{
+				Id = Guid.NewGuid(),
+			};
+
+			var taskData = new UpdateTask
+			{
+				TaskId = task.Id,
+				Title = "title2",
+				Description = "desc2",
+				Deadline = DateTime.UtcNow.AddDays(8)
+			};
+
+			taskRepoMock
+				.Setup(r => r.GetByIdAsync(task.Id))
+				.ReturnsAsync(task);
+
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(false);
+
+			Func<Task> act = () => UpdateTaskHandler.Handle(taskData, new CancellationToken());
+
+			await act.Should().ThrowAsync<DomainException>()
+				.WithMessage("Задача не найдена");
+
+		}
+
+
+		[Fact]
+		public async Task UpdateTaskCompletedThrowsException()
+		{
+			var taskRepoMock = new Mock<ITaskRepository>();
+
+			var service = ServiceCreate(taskRepoMock);
+
+			var UpdateTaskHandler = new UpdateTaskHandler(service);
+
+			var task = new TaskDto
+			{
+				Id = Guid.NewGuid(),
+				Title = "title",
+				Description = "desc",
+				Deadline = DateTime.UtcNow.AddDays(7),
+				Status = TaskStatusEnum.Completed.ToString()
+			};
+
+			var taskData = new UpdateTask
+			{
+				TaskId = task.Id,
+				Title = "title2",
+				Description = "desc2",
+				Deadline = DateTime.UtcNow.AddDays(8)
+			};
+
+			taskRepoMock
+	            .Setup(r => r.ExistsAsync(task.Id))
+	            .ReturnsAsync(true);
+
+			taskRepoMock
+				.Setup(r => r.GetByIdAsync(task.Id))
+				.ReturnsAsync(task);
+
+			await Assert.ThrowsAsync<DomainException>(async () => await UpdateTaskHandler.Handle(taskData, new CancellationToken()));
+		}
+
+		[Fact]
+		public async Task DeleteTaskSuccess()
+		{
+			var taskRepoMock = new Mock<ITaskRepository>();
+			var eventRepoMock = new Mock<ITaskEventRepository>();
+
+			var service = ServiceCreate(taskRepoMock, eventRepoMock);
+
+			var DeleteTaskHandler = new DeleteTaskHandler(service);
+
+			var task = new TaskDto
+			{
+				Id = Guid.NewGuid(),
+			};
+
+			var taskData = new DeleteTask(task.Id);
+
+			taskRepoMock
+				.Setup(r => r.GetByIdAsync(task.Id))
+				.ReturnsAsync(task);
+
+			taskRepoMock
+	            .Setup(r => r.ExistsAsync(task.Id))
+	            .ReturnsAsync(true);
+
+			await DeleteTaskHandler.Handle(taskData, new CancellationToken());
+
+			taskRepoMock.Verify(
+				r => r.ApplyAsync(It.Is<TaskDeletedEvent>(t =>
 					t.TaskId == task.Id
 				)),
 				Times.Once
 			);
 
 			eventRepoMock.Verify(
-				e => e.AddAsync(It.Is<TaskCompletedEvent>(ev =>
+				e => e.AddAsync(It.Is<TaskDeletedEvent>(ev =>
 					ev.TaskId == task.Id
 				)),
 				Times.Once
 			);
 		}
 
+		[Fact]
+		public async Task DeleteTaskIncorrectIdThrowsException()
+		{
+			var taskRepoMock = new Mock<ITaskRepository>();
+
+			var service = ServiceCreate(taskRepoMock);
+
+			var DeleteTaskHandler = new DeleteTaskHandler(service);
+
+			var task = new TaskDto
+			{
+				Id = Guid.NewGuid(),
+			};
+
+			var taskData = new DeleteTask(task.Id);
+
+			taskRepoMock
+				.Setup(r => r.GetByIdAsync(task.Id))
+				.ReturnsAsync(task);
+
+			taskRepoMock
+				.Setup(r => r.ExistsAsync(task.Id))
+				.ReturnsAsync(false);
+
+			Func<Task> act = () => DeleteTaskHandler.Handle(taskData, new CancellationToken());
+
+			await act.Should().ThrowAsync<DomainException>()
+				.WithMessage("Задача не найдена");
+
+		}
 
 
 
